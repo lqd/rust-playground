@@ -5,7 +5,7 @@ import BuildMenu from './BuildMenu';
 import ChannelMenu from './ChannelMenu';
 import ConfigMenu from './ConfigMenu';
 import HeaderButton, { RightIcon as RightIconButton } from './HeaderButton';
-import { BuildIcon, ConfigIcon, HelpIcon, MoreOptionsIcon } from './Icon';
+import { BuildIcon, ConfigIcon, HelpIcon, MoreOptionsIcon, CheckmarkIcon } from './Icon';
 import ModeMenu from './ModeMenu';
 import PopButton, { PopButtonEnhancements } from './PopButton';
 import { SegmentedButton, SegmentedButtonSet, SegmentedLink } from './SegmentedButton';
@@ -52,16 +52,61 @@ const Header: React.SFC<HeaderProps> = props => (
         )}</PopButton>
       </SegmentedButtonSet>
     </HeaderSet>
+    <HeaderSet id="what">
+      <SegmentedButtonSet>
+        <PopButton
+          button={p => <ModeMenuButton label={"ASM"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+        <PopButton
+          button={p => <ModeMenuButton label={"LLVM IR"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+        <PopButton
+          button={p => <ModeMenuButton label={"MIR"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+        <PopButton
+          button={p => <ModeMenuButton label={"WASM"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+      </SegmentedButtonSet>
+    </HeaderSet>
+    <HeaderSet id="mode">
+      <SegmentedButtonSet>
+        <PopButton
+          button={p => <ModeMenuButton label={"Debug"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+        <PopButton
+          button={p => <ModeMenuButton label={"Release"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+      </SegmentedButtonSet>
+    </HeaderSet>
     <HeaderSet id="channel-mode">
       <SegmentedButtonSet>
         <PopButton
-          button={p => <ModeMenuButton label={props.modeLabel} {...p} />}>{({ popButtonClose }) => (
+          button={p => <ModeMenuButton label={"Stable"} {...p} />}>{({ popButtonClose }) => (
             <ModeMenu close={popButtonClose} />
-          )}</PopButton>
+          )}
+        </PopButton>
         <PopButton
-          button={p => <ChannelMenuButton label={props.channelLabel}{...p} />}>{({ popButtonClose }) => (
-            <ChannelMenu close={popButtonClose} />
-          )}</PopButton>
+          button={p => <ModeMenuButton label={"Beta"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+        <PopButton
+          button={p => <ModeMenuButton label={"Nightly"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
       </SegmentedButtonSet>
     </HeaderSet>
     <HeaderSet id="share">
@@ -73,7 +118,13 @@ const Header: React.SFC<HeaderProps> = props => (
     </HeaderSet>
     <HeaderSet id="tools">
       <SegmentedButtonSet>
-        <PopButton button={ToolsMenuButton}>{({ popButtonClose }) => (
+        <PopButton button={p => <ToolsMenuButton label="Rustfmt" {...p} /> }>{({ popButtonClose }) => (
+          <ToolsMenu close={popButtonClose} />
+        )}</PopButton>
+        <PopButton button={p => <ToolsMenuButton label="Clippy" {...p} /> }>{({ popButtonClose }) => (
+          <ToolsMenu close={popButtonClose} />
+        )}</PopButton>
+        <PopButton button={p => <ToolsMenuButton label="Rustfix" {...p} /> }>{({ popButtonClose }) => (
           <ToolsMenu close={popButtonClose} />
         )}</PopButton>
       </SegmentedButtonSet>
@@ -115,7 +166,9 @@ interface ModeMenuButtonProps extends PopButtonEnhancements {
 
 const ModeMenuButton: React.SFC<ModeMenuButtonProps> = ({ label, popButtonProps }) => (
   <SegmentedButton title="Mode &mdash; Choose the optimization level" {...popButtonProps}>
-    <HeaderButton isExpandable>{label}</HeaderButton>
+    <HeaderButton>
+      <span className="notifier">{label}</span>
+    </HeaderButton>
   </SegmentedButton>
 );
 
@@ -129,9 +182,9 @@ const ChannelMenuButton: React.SFC<ChannelMenuButtonProps> = ({ label, popButton
   </SegmentedButton>
 );
 
-const ToolsMenuButton: React.SFC<PopButtonEnhancements> = ({ popButtonProps }) => (
+const ToolsMenuButton: React.SFC<ChannelMenuButtonProps> = ({ label, popButtonProps }) => (
   <SegmentedButton title="Run extra tools on the source code" {...popButtonProps}>
-    <HeaderButton isExpandable>Tools</HeaderButton>
+    <HeaderButton>{label}</HeaderButton>
   </SegmentedButton>
 );
 
