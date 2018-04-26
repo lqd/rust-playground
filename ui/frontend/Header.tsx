@@ -38,6 +38,12 @@ interface HeaderProps {
   gistSave: () => any;
 }
 
+const DotIcon = () => (
+  <svg className="icon"  height="7" viewBox="0 0 24 24" width="7" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 24H0V0h24v24z" fill="none"/>
+    <circle cx="12" cy="12" r="8"/>
+  </svg>
+);
 const Header: React.SFC<HeaderProps> = props => (
   <div className="header">
     <HeaderSet id="build">
@@ -50,30 +56,6 @@ const Header: React.SFC<HeaderProps> = props => (
         <PopButton button={BuildMenuButton}>{({ popButtonClose }) => (
           <BuildMenu close={popButtonClose} />
         )}</PopButton>
-      </SegmentedButtonSet>
-    </HeaderSet>
-    <HeaderSet id="what">
-      <SegmentedButtonSet>
-        <PopButton
-          button={p => <ModeMenuButton label={"ASM"} {...p} />}>{({ popButtonClose }) => (
-            <ModeMenu close={popButtonClose} />
-          )}
-        </PopButton>
-        <PopButton
-          button={p => <ModeMenuButton label={"LLVM IR"} {...p} />}>{({ popButtonClose }) => (
-            <ModeMenu close={popButtonClose} />
-          )}
-        </PopButton>
-        <PopButton
-          button={p => <ModeMenuButton label={"MIR"} {...p} />}>{({ popButtonClose }) => (
-            <ModeMenu close={popButtonClose} />
-          )}
-        </PopButton>
-        <PopButton
-          button={p => <ModeMenuButton label={"WASM"} {...p} />}>{({ popButtonClose }) => (
-            <ModeMenu close={popButtonClose} />
-          )}
-        </PopButton>
       </SegmentedButtonSet>
     </HeaderSet>
     <HeaderSet id="mode">
@@ -104,6 +86,30 @@ const Header: React.SFC<HeaderProps> = props => (
         </PopButton>
         <PopButton
           button={p => <ModeMenuButton label={"Nightly"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+      </SegmentedButtonSet>
+    </HeaderSet>
+    <HeaderSet id="what">
+      <SegmentedButtonSet>
+        <PopButton
+          button={p => <ModeMenuButton label={"ASM"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+        <PopButton
+          button={p => <ModeMenuButton label={"LLVM IR"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+        <PopButton
+          button={p => <ModeMenuButton label={"MIR"} {...p} />}>{({ popButtonClose }) => (
+            <ModeMenu close={popButtonClose} />
+          )}
+        </PopButton>
+        <PopButton
+          button={p => <ModeMenuButton label={"WASM"} {...p} />}>{({ popButtonClose }) => (
             <ModeMenu close={popButtonClose} />
           )}
         </PopButton>
@@ -162,11 +168,12 @@ const BuildMenuButton: React.SFC<PopButtonEnhancements> = ({ popButtonProps }) =
 
 interface ModeMenuButtonProps extends PopButtonEnhancements {
   label: string;
+  icon?: any;
 }
 
-const ModeMenuButton: React.SFC<ModeMenuButtonProps> = ({ label, popButtonProps }) => (
+const ModeMenuButton: React.SFC<ModeMenuButtonProps> = ({ label, icon, popButtonProps }) => (
   <SegmentedButton title="Mode &mdash; Choose the optimization level" {...popButtonProps}>
-    <HeaderButton>
+    <HeaderButton icon={icon}>
       <span className="notifier">{label}</span>
     </HeaderButton>
   </SegmentedButton>
